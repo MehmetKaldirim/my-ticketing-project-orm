@@ -14,8 +14,8 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
 
-    RoleService roleService;
-    UserService userService;
+  RoleService roleService;
+  UserService userService;
 
     public UserController(RoleService roleService, UserService userService) {
         this.roleService = roleService;
@@ -49,7 +49,7 @@ public class UserController {
         return "redirect:/user/create";
 
     }
-
+/*
     @GetMapping("/update/{username}")
     public String editUser(@PathVariable("username") String username, Model model) {
 
@@ -66,8 +66,8 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute("roles", roleService.findAll());
-            model.addAttribute("users", userService.findAll());
+            model.addAttribute("roles", roleService.listAllRoles());
+            model.addAttribute("users", userService.listAllUsers());
 
             return "/user/update";
 
@@ -80,8 +80,8 @@ public class UserController {
 
     @GetMapping("/delete/{username}")
     public String deleteUser(@PathVariable("username") String username) {
-        userService.deleteById(username);
+        userService.deleteByUserName(username);
         return "redirect:/user/create";
-    }
+    }*/
 
 }

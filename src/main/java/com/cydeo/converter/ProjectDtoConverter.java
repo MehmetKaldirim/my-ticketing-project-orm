@@ -1,4 +1,4 @@
-package com.cydeo.converter;
+/* package com.cydeo.converter;
 
 import com.cydeo.dto.ProjectDTO;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
@@ -9,22 +9,23 @@ import org.springframework.stereotype.Component;
 @ConfigurationPropertiesBinding
 public class ProjectDtoConverter implements Converter<String, ProjectDTO> {
 
-    ProjectService projectService;
+ProjectService projectService;
 
-    //injection
-    public ProjectDtoConverter(ProjectService projectService) {
-        this.projectService = projectService;
-    }
+   //injection
+   public ProjectDtoConverter(ProjectService projectService) {
+       this.projectService = projectService;
+   }
 
-    @Override
-    public ProjectDTO convert(String source) {
+   @Override
+   public ProjectDTO convert(String source) {
 
-        if (source == null || source.equals("")) {
-            return null;
-        }
+       if (source == null || source.equals("")) {
+           return null;
+       }
 
-        return projectService.findById(source);
+       return projectService.findById(source);
 
-    }
+   }
 
 }
+*/
