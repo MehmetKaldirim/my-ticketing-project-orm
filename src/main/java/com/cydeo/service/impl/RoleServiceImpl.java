@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RoleService implements com.cydeo.service.RoleService {
+public class RoleServiceImpl implements com.cydeo.service.RoleService {
 
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
 
-    public RoleService(RoleRepository roleRepository, RoleMapper roleMapper) {
+    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper) {
         this.roleRepository = roleRepository;
         this.roleMapper = roleMapper;
     }
@@ -34,7 +34,8 @@ public class RoleService implements com.cydeo.service.RoleService {
     }
 
     @Override
-    public RoleDTO findById(Long Id) {
-        return null;
+    public RoleDTO findById(Long id) {
+
+        return roleMapper.convertToDto(roleRepository.findById(id).get());
     }
 }
