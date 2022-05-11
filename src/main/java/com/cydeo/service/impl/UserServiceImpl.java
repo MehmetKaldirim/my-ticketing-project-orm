@@ -41,16 +41,19 @@ public class UserServiceImpl  implements UserService {
     }
 
     @Override
-    public void update(UserDTO dto) {
+    public UserDTO update(UserDTO dto) {
 
         //Find current user
-        User addUser = userRepository.findByUserName((dto.getUserName()));
+        User user = userRepository.findByUserName(dto.getUserName());
+
         //Find updated dto to entity object
-        User converterUser = userMapper.convertToEntity(dto);
+        User convertedUser = userMapper.convertToEntity(dto);
         //set id to converted object
-        converterUser.setId(addUser.getId());
+        convertedUser.setId(user.getId());
+
         //save updated user
-        userRepository.save(converterUser);
+        userRepository.save(convertedUser);
+        return findByUserName(dto.getUserName());
     }
 
 
@@ -67,5 +70,11 @@ public class UserServiceImpl  implements UserService {
         User user =userRepository.findByUserName(username);
         user.setIsDeleted(true);
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserDTO> listAllByRole(String role) {
+        List<User> users =userRepository.findAllByRoleDescriptionIgnoreCase(role);
+        return users.stream().map(userMapper::convertToDto).collect(Collectors.toList());
     }
 }
