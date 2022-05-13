@@ -2,10 +2,14 @@ package com.cydeo.service.impl;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.entity.Project;
+import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
 import com.cydeo.mapper.ProjectMapper;
 import com.cydeo.repository.ProjectRepository;
+import com.cydeo.repository.TaskRepository;
+import com.cydeo.repository.UserRepository;
 import com.cydeo.service.ProjectService;
+import com.cydeo.service.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +20,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
+    private final UserRepository userRepository;
+    private final TaskService taskService;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper, UserRepository userRepository, TaskService taskService) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
+        this.userRepository = userRepository;
+        this.taskService = taskService;
     }
 
     @Override
@@ -75,5 +83,23 @@ public class ProjectServiceImpl implements ProjectService {
         project.setProjectStatus(Status.COMPLETE);
         projectRepository.save(project);
 
+    }
+
+    @Override
+    public List<ProjectDTO> listAllProjectsDetails() {
+        //harold@manager.com
+
+        User user = userRepository.findByUserName("harold@manager.com");
+
+        List<Project> list = projectRepository.findAllByAssignedManager(user);
+
+
+        return list.stream().map(project -> {
+            ProjectDTO obj = projectMapper.convertToDto(project);
+            obj.setUnfinishedTaskCounts(taskService.totalNonCompletedTask(project.getProjectCode()));
+            obj.setCompleteTaskCounts(taskService.totalCompletedTask(project.getProjectCode()));
+            return obj;
+
+        }).collect(Collectors.toList());
     }
 }
