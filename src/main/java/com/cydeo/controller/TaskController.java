@@ -1,9 +1,10 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
-import com.cydeo.service.UserService;
 import com.cydeo.service.TaskService;
+import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,7 +38,7 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String insertTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
+    public String insertTask(@ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
 
@@ -72,15 +73,15 @@ public class TaskController {
 
     }
 
-  //      @PostMapping("/update/{taskId}")
-  //    public String updateTask(@PathVariable("taskId") Long taskId, TaskDTO task) {
-  //           task.setId(taskId);
-  //      taskService.update(task);
-  //      return "redirect:/task/create";
-  //  }
-
+    //    @PostMapping("/update/{taskId}")
+//    public String updateTask(@PathVariable("taskId") Long taskId, TaskDTO task) {
+//        task.setId(taskId);
+//        taskService.update(task);
+//        return "redirect:/task/create";
+//    }
+//
     @PostMapping("/update/{id}")
-    public String updateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
+    public String updateTask(@ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
 
@@ -96,10 +97,9 @@ public class TaskController {
         return "redirect:/task/create";
     }
 
-    /*
     @GetMapping("/employee/pending-tasks")
     public String employeePendingTasks(Model model) {
-        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
+        model.addAttribute("tasks", taskService.listAllTasksByStatusIsNot(Status.COMPLETE));
         return "task/pending-tasks";
     }
 
@@ -107,7 +107,7 @@ public class TaskController {
     public String employeeEditTask(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute("task", taskService.findById(id));
-        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
+        model.addAttribute("tasks", taskService.listAllTasksByStatusIsNot(Status.COMPLETE));
         model.addAttribute("statuses", Status.values());
 
         return "task/status-update";
@@ -115,11 +115,11 @@ public class TaskController {
     }
 
     @PostMapping("/employee/update/{id}")
-    public String employeeUpdateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
+    public String employeeUpdateTask(@ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETE));
+            model.addAttribute("tasks", taskService.listAllTasksByStatusIsNot(Status.COMPLETE));
             model.addAttribute("statuses", Status.values());
 
             return "/task/status-update";
@@ -133,10 +133,8 @@ public class TaskController {
 
     @GetMapping("/employee/archive")
     public String employeeArchivedTasks(Model model) {
-        model.addAttribute("tasks", taskService.findAllTasksByStatus(Status.COMPLETE));
+        model.addAttribute("tasks", taskService.listAllTasksByStatus(Status.COMPLETE));
         return "task/archive";
     }
 
-
-*/
 }
