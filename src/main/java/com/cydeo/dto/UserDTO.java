@@ -1,6 +1,7 @@
 package com.cydeo.dto;
 
 import com.cydeo.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.validation.constraints.*;
@@ -8,7 +9,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
+@Builder
 public class UserDTO {
 
     private Long id;
@@ -65,11 +66,13 @@ public class UserDTO {
         return confirmPassWord;
     }
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public void setConfirmPassWord(String confirmPassWord) {
         this.confirmPassWord = confirmPassWord;
         checkConfirmPassWord();
     }
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private void checkConfirmPassWord() {
         if(this.passWord == null || this.confirmPassWord == null){
             return;
